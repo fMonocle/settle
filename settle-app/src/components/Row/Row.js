@@ -13,10 +13,27 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-bottom: 6pc;
 
+  .delete-pair {
+    width: 100%;
+    border: none;
+    color: white;
+    font-size: 22px;
+    background: red;
+    padding: 10px;
+    border-radius: 3px;
+  }
+
   ${media.desktop} {
     flex-direction: row;
     align-items: flex-end;
     margin-bottom: 0;
+
+    .delete-pair {
+      width: 6pc;
+      background: transparent;
+      color: red;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -77,6 +94,10 @@ const Fee = styled.div`
       color: black;
       font-size: 30px;
     }
+
+    .new-rate {
+      width: 10pc;
+    }
   }
 `;
 
@@ -91,7 +112,7 @@ const Percentage = styled.div`
 `;
 
 
-const Row = ({ pair, value}) => {
+const Row = ({ pair, value, deletePair}) => {
   const fee = value;
   const [percentage, setPercentage] = useState(0);
   const [newFee, setNewFee] = useState(value);
@@ -119,10 +140,10 @@ const Row = ({ pair, value}) => {
       {showPairList ? (
         <>
           <ApiFee>
-            <small>{pair}</small>
+            <small>{pair.label}</small>
             <p>{value.toFixed(4)}</p>
           </ApiFee>
-          <Input id={pair} type="number" value={percentage} onChange={setPercentage} />
+          <Input id={pair.label} type="number" value={percentage} onChange={setPercentage} />
           <Percentage>{percentage} %</Percentage>
           <Fee>
             <small>Fee amount</small>
@@ -132,6 +153,9 @@ const Row = ({ pair, value}) => {
             <small>New rate</small>
             <p className="new-rate">{newFee.toFixed(4)}</p>
           </Fee>
+          <button className="delete-pair" type="button" onClick={() => deletePair(pair)}>
+            Delete
+          </button>
         </>
       ) : (
         ""

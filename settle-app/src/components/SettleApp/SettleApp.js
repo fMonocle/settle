@@ -32,6 +32,11 @@ const TableWrap = styled.div`
 
   ${media.desktop} {
     margin: 2pc 9pc;
+
+    button {
+      align-self: flex-end;
+      padding-bottom: 10px;
+    }
   }
 `;
 
@@ -39,6 +44,7 @@ let pairList = [];
 const SettleApp = () => {
   const [rates, setRates] = useState([]);
   const [pair, setPair] = useState();
+  const [pairListAux, setPairListAux] = useState(pairList);
   const [errorMsg, setErrorMsg] = useState("");
   
   const fetch = async () => {
@@ -60,29 +66,36 @@ const SettleApp = () => {
     pairList.push(e);
   }
 
+  const deletePair = pair => {
+    const filtered = pairList.filter(e => e.label !== pair.label);
+    pairList = filtered;
+    setPairListAux(pairList);
+    
+  }
+
   useEffect(() => {
     fetch();
   }, []);
-
-
-  console.log(pairList);
 
   return (
     <SettleAppWrap>
       <h3>Select a pair</h3>
       <SelectPair options={rates} onChange={setPair} setPairList={setPairList} value={pair}/>
-      {pairList.length > 0 ? (
+      {pairListAux.length > 0 ? (
         <TableWrap>
           <p className="error-msg">{errorMsg}</p>
           {pairList.map(e => {
-            return <Row pair={e.label} value={e.value} />
+            return (
+              <>
+                <Row pair={e} value={e.value} deletePair={deletePair} />
+              </>
+            );
           })}
         </TableWrap>
       ) : (
         ""
       )}
     </SettleAppWrap>
-    
     );
   }
 
