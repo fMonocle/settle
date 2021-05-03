@@ -2,26 +2,48 @@ import React, { useState, useEffect } from "react";
 import Input from "../../ui/Input";
 import styled from "styled-components";
 
+const media = {
+  tablet: '@media(min-width: 768px)',
+  desktop: '@media(min-width: 1366px)',
+};
+
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-bottom: 6pc;
+
+  ${media.desktop} {
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 0;
+  }
 `;
 
 const ApiFee = styled.div`
-  padding: 50px 25px 0 25px;
+  padding: 0;
   width: 6pc;
   border-bottom: 1px solid white;
   text-align: left;
-  margin-right: 10px;
+  margin: 3px
 
   p {
     color: black;
-    font-size: 30px;
+    font-size: 20px;
   }
 
   small {
     color: gray;
     font-size: 20px;
+  }
+
+  ${media.desktop} {
+    padding: 50px 25px 0 25px;
+    margin-right: 10px;
+
+    p {
+      font-size: 30px;
+    }
   }
 `;
 
@@ -40,20 +62,38 @@ const Fee = styled.div`
   }
 
   .new-rate {
-    color: #0368F6;
+    color: #0069fb;
+  }
+
+  ${media.desktop} {
+    background: unset;
+    
+    small {
+      color: gray;
+      font-size: 12px;
+    }
+
+    p {
+      color: black;
+      font-size: 30px;
+    }
   }
 `;
 
 const Percentage = styled.div`
   color: #26A69A;
-  padding: 10px;
   font-size: 30px;
+  min-width: 4pc;
+
+  ${media.desktop} {
+    padding: 10px 30px;
+  }
 `;
 
 
 const Row = ({ pair, value}) => {
+  const fee = value;
   const [percentage, setPercentage] = useState(0);
-  const [fee, setFee] = useState(value);
   const [newFee, setNewFee] = useState(value);
   const [amountDifference, setAmountDifference] = useState(0);
 

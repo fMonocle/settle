@@ -10,12 +10,16 @@ const media = {
 
 const TableWrap = styled.div`
   display: flex;
-  margin: 2pc 9pc;
+  margin: 0;
   padding: 10px;
   flex-direction: column;
 
   p {
     margin: 0;
+  }
+
+  ${media.desktop} {
+    margin: 2pc 9pc;
   }
 `;
 

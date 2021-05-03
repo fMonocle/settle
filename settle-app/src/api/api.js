@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import axios from 'axios';
 
-const get = (path, params) => {
-    return axios.get(path);
+const get = (path) => {
+  return axios.get(path);
 };
 
 
