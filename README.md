@@ -1,2 +1,6 @@
 # settle
-Challenge
+Para levantar la app
+
+npm i
+
+npm start
