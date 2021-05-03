@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState ,useEffect } from "react";
+import client from "../../api/api";
+import Row from "../Row";
 import styled from "styled-components";
 
 const media = {
@@ -6,50 +8,44 @@ const media = {
   desktop: '@media(min-width: 1366px)',
 };
 
-const Header = styled.div`
-  width: 100%;
+const TableWrap = styled.div`
   display: flex;
-  background: #0069fb;
-  justify-content: flex-start;
-  
-  .logo-wrapper {
-    width: 7pc;
+  margin: 2pc 9pc;
+  padding: 10px;
+  flex-direction: column;
+
+  p {
+    margin: 0;
   }
-
-  img {
-    width: 100%;
-    margin: 10px;
-  }
-
-  ${media.desktop} {
-    .logo-wrapper {
-      width: 10pc;
-    }
-
-    img {
-      margin: 10px 10px 10px 135px;
-    }
-  }
-`;
-
-const Wrapper = styled.div`
-  height: 100vh;
-  margin: 0 auto;
 `;
 
 const SettleApp = () => {
+  const [rates, setRates] = useState([]);
+  
+  const fetch = async () => {
+    try {
+      const res = await client.endpoints.rates.get();
+      setRates([
+        { pair: "EURUSD", value: res.data.rates["USD"] },
+        { pair: "EURARS", value: res.data.rates["ARS"] },
+        { pair: "EURBRL", value: res.data.rates["BRL"] }
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
   return (
-    <>
-      <Header>
-        <div className="logo-wrapper">
-          <img src="../../../img/logo.png" alt="logo" />
-        </div>
-      </Header>
-      <Wrapper>
-        <h1>laksdjalksdj</h1>
-      </Wrapper>
-    </>
-  );
-}
+    <TableWrap>
+      {rates.map(e => {
+        return <Row pair={e.pair} value={e.value} />
+      })}
+    </TableWrap>
+    );
+  }
 
 export default SettleApp;

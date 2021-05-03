@@ -1,11 +1,11 @@
-import logo from './logo.svg';
 import components from "./components";
 import './App.css';
 
 function App() {
-  const { SettleApp } = components;
+  const { Header, SettleApp } = components;
   return (
     <div className="App">
+      <Header />
       <SettleApp />
     </div>
   );
